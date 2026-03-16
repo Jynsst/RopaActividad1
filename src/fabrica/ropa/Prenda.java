@@ -1,6 +1,7 @@
 package fabrica.ropa;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Prenda {
 
@@ -57,24 +58,24 @@ public class Prenda {
         this.lotes.add(lote);
     }
 
-    public void deleteLote(String noDeLote) {
+    public void deleteLote(int noDeLote) {
         for(Lote lote1:this.lotes){
-            if(lote1.getNoDeLote().equals(noDeLote)){
+            if(lote1.getNoDeLote()==noDeLote){
                 this.lotes.remove(lote1);
                 break;
             }
         }
     }
 
-    public float montoDeRecuperacionPorLote(String noDeLote){
+    public float montoDeRecuperacionPorLote(int noDeLote){
         float montoDeRecuperacionP=0.0f;
         for(Lote lote1:this.lotes){
-            if(lote1.getNoDeLote().equals(noDeLote)){
+            if(lote1.getNoDeLote()==(noDeLote)){
                montoDeRecuperacionP=this.costoDeProduccion*lote1.getNumeroDePrendas()*0.05f;
                 break;
             }
         }
-        return costoDePrenda;
+        return montoDeRecuperacionP;
     }
 
     public float montoDeRecuperacionPorPrenda(){
