@@ -97,7 +97,7 @@ public class Prenda implements Comparable<Prenda> {
         return lotes;
     }
 
-    @Override
+
     public boolean equals(Prenda o) {
         if (!(o instanceof Prenda)) return false;
         return Float.compare(costoDeProduccion, o.costoDeProduccion)

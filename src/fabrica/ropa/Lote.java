@@ -56,7 +56,7 @@ public class Lote implements Comparable<Lote>{
                 '}';
     }
 
-    @Override
+
     public boolean equals(Lote o) {
         if (!(o instanceof Lote )) return false;
         return numeroDePrendas == o.numeroDePrendas && Objects.equals(fechaDeFabricacion, o.fechaDeFabricacion);
