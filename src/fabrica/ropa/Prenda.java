@@ -1,9 +1,11 @@
 package fabrica.ropa;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
-public class Prenda {
+public class Prenda implements Comparable<Prenda> {
 
     private String modelo;
     private String tela;
@@ -11,6 +13,7 @@ public class Prenda {
     private  float costoDeProduccion;
     private String temporada;
     private List<Lote> lotes;
+    public Comparator<Prenda> comparator;
 
     public Prenda(String modelo,String tela,String genero,float costoDeProduccion, String temporada){
         this.modelo=modelo;
@@ -19,6 +22,12 @@ public class Prenda {
         this.costoDeProduccion=costoDeProduccion;
         this.temporada=temporada;
         this.lotes=new ArrayList<Lote>();
+        comparator =new Comparator<Prenda>(){
+            @Override
+            public int compare(Prenda o1, Prenda o2) {
+               return o1.compareTo(o2);
+            }
+        };
     }
 
     public String getModelo() {
@@ -84,6 +93,29 @@ public class Prenda {
 
     }
 
+    public List<Lote> getLotes() {
+        return lotes;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Prenda prenda)) return false;
+        return Float.compare(costoDeProduccion, prenda.costoDeProduccion)
+                == 0 && Objects.equals(modelo, prenda.modelo) &&
+                Objects.equals(tela, prenda.tela) &&
+                Objects.equals(genero, prenda.genero) && Objects.equals(temporada, prenda.temporada);
+    }
+
+    @Override
+    public int hashCode() {
+       int result=Objects.hashCode(modelo);
+       result=31*result + Objects.hashCode(tela);
+       result=31*result + Objects.hashCode(genero);
+       result=31*result + Float.hashCode(costoDeProduccion);
+       result=31*result + Objects.hashCode(temporada);
+       return result;
+    }
+
     @Override
     public String toString() {
         return "Prenda{" +
@@ -96,4 +128,21 @@ public class Prenda {
                 '}';
     }
 
+    @Override
+    public int compareTo(Prenda prenda) {
+        int r=0;
+        if((r=this.modelo.compareTo(prenda.modelo))!=0){
+            return r;
+        }
+        if((r=this.tela.compareTo(prenda.tela))!=0){
+            return r;
+        }
+        if((r=this.genero.compareTo(prenda.genero))!=0){
+            return r;
+        }
+        if((r=Float.compare(this.costoDeProduccion, prenda.costoDeProduccion))!=0){
+            return r;
+        }
+        return 0;
+    }
 }
