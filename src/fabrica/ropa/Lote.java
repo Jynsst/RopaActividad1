@@ -1,14 +1,18 @@
 package fabrica.ropa;
 
 import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.Objects;
 
 
-public class Lote {
+public class Lote implements Comparable<Lote>{
 
+  
     private int noDeLote;
     private int numeroDePrendas;
     private LocalDate fechaDeFabricacion;
     static int contador;
+    public Comparator<Lote> comparator;
 
     {
         contador++;
@@ -17,6 +21,12 @@ public class Lote {
         this.numeroDePrendas = numeroDePrendas;
         this.fechaDeFabricacion = fechaDeFabricacion;
         this.noDeLote=contador;
+        comparator =new Comparator<Lote>(){
+            @Override
+            public int compare(Lote o1, Lote o2) {
+                return o1.compareTo(o2);
+            }
+        };
     }
 
     public int getNoDeLote() {
@@ -44,6 +54,31 @@ public class Lote {
                 ", numeroDePrendas=" + this.numeroDePrendas +
                 ", fechaDeFabricacion=" + this.fechaDeFabricacion +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Lote o) {
+        if (!(o instanceof Lote )) return false;
+        return numeroDePrendas == o.numeroDePrendas && Objects.equals(fechaDeFabricacion, o.fechaDeFabricacion);
+    }
+
+    @Override
+    public int hashCode() {
+       int result=numeroDePrendas;
+       result=result*31+fechaDeFabricacion.hashCode();
+       return result;
+    }
+
+    @Override
+    public int compareTo(Lote lote) {
+        int r=0;
+        if((r=Integer.compare(this.numeroDePrendas, lote.numeroDePrendas))!=0) {
+            return r;
+        }
+        if((r = (this.fechaDeFabricacion.compareTo(lote.fechaDeFabricacion)))!= 0){
+        return r;
+        }
+        return 0;
     }
 }
 

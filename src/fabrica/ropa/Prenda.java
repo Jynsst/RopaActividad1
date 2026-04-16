@@ -98,12 +98,12 @@ public class Prenda implements Comparable<Prenda> {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Prenda prenda)) return false;
-        return Float.compare(costoDeProduccion, prenda.costoDeProduccion)
-                == 0 && Objects.equals(modelo, prenda.modelo) &&
-                Objects.equals(tela, prenda.tela) &&
-                Objects.equals(genero, prenda.genero) && Objects.equals(temporada, prenda.temporada);
+    public boolean equals(Prenda o) {
+        if (!(o instanceof Prenda)) return false;
+        return Float.compare(costoDeProduccion, o.costoDeProduccion)
+                == 0 && Objects.equals(modelo, o.modelo) &&
+                Objects.equals(tela, o.tela) &&
+                Objects.equals(genero, o.genero) && Objects.equals(temporada, o.temporada);
     }
 
     @Override
