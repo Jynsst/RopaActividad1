@@ -1,5 +1,7 @@
 package fabrica.ropa;
 
+import Excepciones.ExcepcionRangoInvalido;
+
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.Objects;
@@ -12,21 +14,27 @@ public class Lote implements Comparable<Lote>{
     private int numeroDePrendas;
     private LocalDate fechaDeFabricacion;
     static int contador;
+    static final int LIMITEIP=50;
+    static final int LIMITESP=350;
     public Comparator<Lote> comparator;
 
     {
         contador++;
     }
     public Lote(LocalDate fechaDeFabricacion,int numeroDePrendas) {
-        this.numeroDePrendas = numeroDePrendas;
-        this.fechaDeFabricacion = fechaDeFabricacion;
-        this.noDeLote=contador;
-        comparator =new Comparator<Lote>(){
-            @Override
-            public int compare(Lote o1, Lote o2) {
-                return o1.compareTo(o2);
-            }
-        };
+        if(LIMITEIP<=numeroDePrendas||numeroDePrendas<=LIMITESP) {
+            this.numeroDePrendas = numeroDePrendas;
+            this.fechaDeFabricacion = fechaDeFabricacion;
+            this.noDeLote = contador;
+            comparator = new Comparator<Lote>() {
+                @Override
+                public int compare(Lote o1, Lote o2) {
+                    return o1.compareTo(o2);
+                }
+            };
+        }else{
+           throw new ExcepcionRangoInvalido("Numero de prendas fuera del rango!!");
+        }
     }
 
     public int getNoDeLote() {
@@ -35,7 +43,11 @@ public class Lote implements Comparable<Lote>{
 
 
     public void setNumeroDePrendas(int numeroDePrendas){
-        this.numeroDePrendas=numeroDePrendas;
+        if(numeroDePrendas>=LIMITEIP||numeroDePrendas<=LIMITESP) {
+            this.numeroDePrendas = numeroDePrendas;
+        }else {
+            throw new ExcepcionRangoInvalido("numero de prendas fuera del rango!!");
+        }
 
     }
     public int getNumeroDePrendas() {
