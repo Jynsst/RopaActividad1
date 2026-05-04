@@ -1,5 +1,8 @@
 package fabrica.ropa;
 
+
+import Excepciones.ExcepcionTipoDeDatoInvalido;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -9,25 +12,41 @@ public class Prenda implements Comparable<Prenda> {
 
     private String modelo;
     private String tela;
-    private String genero;
+    private Genero genero;
     private  float costoDeProduccion;
-    private String temporada;
+    private Temporada temporada;
     private List<Lote> lotes;
     public Comparator<Prenda> comparator;
+    private final float LIMITE;
 
-    public Prenda(String modelo,String tela,String genero,float costoDeProduccion, String temporada){
-        this.modelo=modelo;
-        this.tela=tela;
-        this.genero=genero;
-        this.costoDeProduccion=costoDeProduccion;
-        this.temporada=temporada;
-        this.lotes=new ArrayList<Lote>();
-        comparator =new Comparator<Prenda>(){
-            @Override
-            public int compare(Prenda o1, Prenda o2) {
-               return o1.compareTo(o2);
+    public Prenda(String modelo,String tela,Genero genero,float costoDeProduccion, Temporada temporada,float limite){
+      if(genero.name().equals("MASCULUNO")||genero.name().equals("FEMENINO")||genero.name().equals("MIXTO")) {
+
+          if(temporada.name().equals("PRIMAVERA")||temporada.name().equals("VERANO")
+                 ||temporada.name().equals("INVIERNO")||temporada.name().equals("OTOÑO")) {
+            if(limite>=costoDeProduccion) {
+                this.LIMITE=limite;
+                this.modelo = modelo;
+                this.tela = tela;
+                this.genero = genero;
+                this.costoDeProduccion = costoDeProduccion;
+                this.temporada = temporada;
+                this.lotes = new ArrayList<Lote>();
+                comparator = new Comparator<Prenda>() {
+                    @Override
+                    public int compare(Prenda o1, Prenda o2) {
+                        return o1.compareTo(o2);
+                    }
+                };
+            }else{
+                throw new IllegalArgumentException("Costo invalido superior al limite!!");
             }
-        };
+         }else{
+              throw new ExcepcionTipoDeDatoInvalido("Temporada no encontrada!!");
+          }
+      } else {
+         throw  new ExcepcionTipoDeDatoInvalido("Genero introducido invalido!!");
+      }
     }
 
     public String getModelo() {
@@ -44,7 +63,7 @@ public class Prenda implements Comparable<Prenda> {
     
 
     public String getGenero() {
-        return genero;
+        return genero.name();
     }
 
     public float getCostoDeProduccion() {
@@ -52,15 +71,24 @@ public class Prenda implements Comparable<Prenda> {
     }
 
     public void setCostoDeProduccion(float costoDeProduccion) {
-        this.costoDeProduccion = costoDeProduccion;
+        if(LIMITE>=costoDeProduccion) {
+            this.costoDeProduccion = costoDeProduccion;
+        }else{
+            throw new IllegalArgumentException("Costo Invalido superior al limite");
+        }
     }
 
     public String getTemporada() {
-        return temporada;
+        return temporada.name();
     }
 
-    public void setTemporada(String temporada) {
-        this.temporada = temporada;
+    public void setTemporada(Temporada temporada) {
+        if(temporada.name().equals("PRIMAVERA")||temporada.name().equals("VERANO")
+                ||temporada.name().equals("INVIERNO")||temporada.name().equals("OTOÑO")) {
+            this.temporada = temporada;
+        }else{
+            throw new ExcepcionTipoDeDatoInvalido("Temporada invalida!!");
+        }
     }
 
     public void addLote(Lote lote) {
